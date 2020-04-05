@@ -16,25 +16,24 @@ Tree& Tree::addMother(string child, string mother)
     return *this;
 }
 
-string relation(string name)
+string Tree::relation(string name)
 {
     return "";
 }
 
-string find(string name)
+string Tree::find(string name)
 {
     return "";
 
 }
 
-void display()
+void Tree::display()
 {
 
 }
         
-void remove(string name)
+void Tree::remove(string name)
 {
 
 }
-
 

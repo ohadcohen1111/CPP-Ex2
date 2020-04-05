@@ -9,7 +9,6 @@
 
 #include <iostream>
 using namespace std;
-using namespace family;
 
 int main() {
 	family::Tree T ("Yosef"); // Yosef is the "root" of the tree (the youngest person).
