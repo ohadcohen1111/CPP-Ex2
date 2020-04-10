@@ -23,9 +23,9 @@ TEST_CASE("Test 1")
 	CHECK(T.relation("xyz") == string("unrelated"));
 	CHECK(T.relation("Ido") == string("me"));
 
-    CHECK_THROWS_AS(T.addFather("",""), exception);
-    CHECK_THROWS_AS(T.addFather("",""), exception);
-    CHECK_THROWS_AS(T.addFather("",""), exception);
+    CHECK_THROWS_AS(T.addFather("reut","shay"), exception);
+    CHECK_THROWS_AS(T.addFather("hadar","ayyala"), exception);
+    CHECK_THROWS_AS(T.addFather("tair","shaked"), exception);
 
 	//find function
 
@@ -109,8 +109,8 @@ TEST_CASE("Test 3")
 	CHECK(T.find("grandfather") == string("Reuven"));
 	CHECK(T.find("me") == string("Amit"));
 
-    CHECK_THROWS_AS(T.find("grandmother"), exception);
-    CHECK_THROWS_AS(T.find("grandfather"), exception);
+    // CHECK_THROWS_AS(T.find("grandmother"), exception);
+    // CHECK_THROWS_AS(T.find("grandfather"), exception);
 
 	//remove function
 
