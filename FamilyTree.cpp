@@ -5,8 +5,7 @@ using namespace family;
 
 Tree::Tree(string name)
 {
-   node::node n ();
-    node::n->name=name;
+  
 }
 
 Tree& Tree::addFather(string child,string father)
