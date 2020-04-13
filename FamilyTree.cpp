@@ -1,7 +1,7 @@
 #include "FamilyTree.hpp"
 
 using namespace family;
-static int rel = 0;
+static int level = 0;
 
 Tree::Tree(string name)
 {
@@ -64,49 +64,89 @@ Tree& Tree::addMother(string child,string mother)
     
 }
 
-string Tree::relationRec(string name, int depth)
-{
-    if(this->name == name)
-    {
-        return "Found";
-    }
+string Tree::relation(string name)
+{   
+    int level = relationHelp(this, name, 1);
+    string res = "";
+    string great = "great-";
 
-    if(this->father != NULL)
+    switch (level)
     {
-        return this->father->relation(name);
+    case 0:
+        res = "unrelated";
+        break;
+    case 1:
+        res = "me"; 
+        break;
+    case 2:
+        res = "father"; 
+        break;
+    case -2:
+        res = "mother"; 
+        break;
+    case 3:
+        res = "grandfather"; 
+        break;
+    case -3:
+        res = "grandmother"; 
+        break;
+    
+    default:
+        string sign = "";
+        if(level > 0)
+        {
+            sign += "grandfather";
+        }
+        else
+        {
+            sign += "grandmother";
+            level *= -1;
+        }
+    
+        while(level-- > 3)
+        {
+            res += great;
+        }
+        res += sign;
+        break;
     }
-
-    if(this->mother != NULL)
-    {
-        return this->mother->relation(name);
-    }
-
-    return "";
+    return res;
 }
 
-string Tree::relation(string name)
-{  
 
-    // if(this->name == name)
-    // {
-    //     return "Found  ";
-    // }
-    // else if(this->father == NULL && this->mother == NULL)
-    // {
-    //     return "Not Found ";
-    // }
-    // else if(this->father == NULL)
-    // {
-    //      return this->mother->relation(name);
-    // }
-    // else if(this->mother == NULL)
-    // {
-    //      return this->father->relation(name);
-    // }
-    // else
-    // {
-    //     return this->father->relation(name) + this->mother->relation(name);
-    // }
+
+int Tree::relationHelp(Tree * T, string name, int level)
+{
+   if(T->father == NULL && T->mother == NULL)
+   {
+       return 0;
+   }
+
+   if(T->name == name)
+   {
+       return level;
+   }
+
+    if(T->father->name == name)
+   {
+       return level + 1;
+   }
+
+    if(T->mother->name == name)
+   {
+       return ((level + 1) * (-1));
+   }
+
+   int downlevel = relationHelp(T->father, name, level + 1);
+
+    if(downlevel != 0)
+    {
+        return downlevel;
+    }
+
+    downlevel = relationHelp(T->mother, name, level + 1);
+
+    return downlevel;
 }
 
 
@@ -114,15 +154,14 @@ string Tree::find(string name)
 {
     if(this->name == name)
     {
-        return "" + rel;
+        return "" ;
     }
     else if(this->father == NULL && this->mother == NULL)
     {
-        return "" + rel;
+        return "";
     }
     this->father->find(name);
     this->mother->find(name);
-    rel++;
 }
 
 
@@ -139,18 +178,4 @@ void Tree::display()
 void Tree::remove(string name)
 {
 
-}
-
-int main()
-{
-    Tree * T = new Tree("Ohad");
-    T->addFather("Ohad", "Tzvi");
-    T->addMother("Ohad", "Tzipi");
-    T->addFather("Tzvi", "F-Tzvi");
-    T->addMother("Tzvi", "M-Tzvi");
-    T->addFather("F-Tzvi", "F-(F-Tzvi)");
-    cout<< T->relation("Tzvi") << endl;
-    // cout<< T << endl;
-    //T->display();
-    return 0;
 }
