@@ -149,21 +149,107 @@ int Tree::relationHelp(Tree * T, string name, int level)
     return downlevel;
 }
 
+string findName = "";
 
 string Tree::find(string name)
 {
-    if(this->name == name)
+    if (name == "me")
     {
-        return "" ;
+        return this->name;
     }
-    else if(this->father == NULL && this->mother == NULL)
+    if (name == "mother")
     {
-        return "";
+        if (this->mother == NULL)
+        {
+            throw runtime_error("No such a mother");
+        }        
+        return this->mother->name;
     }
-    this->father->find(name);
-    this->mother->find(name);
+    if (name == "father")
+    {
+        if (this->father == NULL)
+        {
+            throw runtime_error("No such a father");
+        }  
+        return this->father->name;
+    }
+     if (name == "grandfather")
+    {
+        if (this->father->father != NULL)
+        {
+           return this->father->father->name;
+        }
+        else  if (this->mother->father != NULL)
+        {
+             return this->mother->father->name;
+        }
+        throw runtime_error("No such a grandfather");
+    }
+     if (name == "grandmother")
+    {
+         if (this->father->mother != NULL)
+        {
+           return this->father->mother->name;
+        }
+        else  if (this->mother->mother != NULL)
+        {
+          return this->mother->mother->name;
+        }
+        throw runtime_error("No such a grandmother");
+    }
+    else
+    {
+        int level = 3;
+        string s = name;
+        while ((s != "grandmother" ) && (s != "grandfather"))
+        {
+            s = s.substr(6,(s.length()-6));
+            level++;
+        }
+        findHelp(this,s, level);
+        if (findName == "")
+        {
+            throw runtime_error("No such a " + name);
+        }
+        return findName;
+        
+    }  
 }
 
+int  Tree::findHelp(Tree * T,string name, int level)
+{
+    if (T == NULL)
+    {
+        return -1;
+    }
+    
+   if(T->father == NULL && T->mother == NULL)
+   {
+       return -1;
+   }
+
+   if(level == 2 )
+   {
+       if (name == "grandmother")
+       {
+           findName = T->mother->name;
+       }else
+       {
+           findName = T->father->name;
+       }       
+       return level;
+   }
+   int downlevel = findHelp(T->father,name, level-1);
+
+    if(downlevel > 0)
+    {
+        return downlevel;
+    }
+
+    downlevel =  findHelp(T->mother,name, level-1);
+
+    return downlevel;
+}
 
 void Tree::display()
 {
@@ -177,5 +263,34 @@ void Tree::display()
         
 void Tree::remove(string name)
 {
-
+    
 }
+
+// int main()
+// {
+//     Tree * T = new Tree("Doron");
+//     T->addFather("Doron", "Gal");
+//     T->addMother("Doron", "Galit");
+//     T->addFather("Gal", "Reuven");
+//     T->addMother("Gal", "Rachel");
+//     T->addFather("Galit", "Shlomo");
+//     T->addMother("Galit", "Yael");
+//     T->addMother("Yael", "saly");
+//     T->addFather("Yael", "f -yael");
+//     T->addFather("f -yael", "f -f-yael");
+//     T->addFather("Shlomo", "F-Shlomo");
+//     T->addFather("F-Shlomo", "F-F-Shlomo");
+//     T->addFather("F-F-Shlomo", "F-F-F-Shlomo");
+//     T->addMother("Rachel", "M-Rachel");
+//     T->addMother("M-Rachel", "M-M-Rachel");
+//     T->addMother("M-M-Rachel", "M-M-M-Rachel");
+//    cout<<T->find("great-great-great-great-grandmother");
+
+//    Tree * T1 = new Tree("Ido");
+//    cout<<T1->find("mother");
+
+
+//     //cout << T->relation("M-Tzvi") << endl;
+
+//     return 0;
+// }

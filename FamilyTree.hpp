@@ -20,5 +20,6 @@ class Tree
         void display();
         void remove(string name);
         int relationHelp(Tree * T, string name, int level);
+        int  findHelp(Tree * T,string name, int level);
     };
 };

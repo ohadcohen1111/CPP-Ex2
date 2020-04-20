@@ -9,10 +9,15 @@ using namespace family;
 
 TEST_CASE("Test 1")
 {
-    family::Tree T ("Ido");
-    T.addFather("Ido","Roni").addMother("Ido", "Moran").addFather("Roni", "Tzvi")
-    .addMother("Roni", "Tzipi").addFather("Moran", "Shalom").addMother("Moran", "Avigail")
-    .addFather("Tzvi","Kuti").addMother("Tzvi","Hana");
+    Tree T ("Ido");
+    T.addFather("Ido","Roni");
+	T.addMother("Ido", "Moran");
+	T.addFather("Roni", "Tzvi");
+    T.addMother("Roni", "Tzipi");
+	T.addFather("Moran", "Shalom");
+	T.addMother("Moran", "Avigail");
+    T.addFather("Tzvi","Kuti");
+	T.addMother("Tzvi","Hana");
     T.display();
 
 	//relation function
